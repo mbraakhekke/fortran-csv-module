@@ -303,7 +303,7 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/test"
 )
 
 # Fortran module files
-install(FILES "${LIBFCSV_FORTRAN_MODULE_DIR}/csv_module.mod"
+install(FILES "${LIBFCSV_FORTRAN_MODULE_DIR}/$<CONFIG>/csv_module.mod"
     DESTINATION finclude)
 
 list(APPEND CPACK_GENERATOR ZIP)
