@@ -94,7 +94,8 @@
                                  get_integer_column,&
                                  get_logical_column,&
                                  get_character_column,&
-                                 get_csv_string_column
+                                 get_csv_string_column,&
+                                 get_character_column_by_name
         procedure :: get_csv_data_as_str
         procedure :: csv_get_value
         procedure :: get_real_sp_column
@@ -103,6 +104,7 @@
         procedure :: get_logical_column
         procedure :: get_character_column
         procedure :: get_csv_string_column
+        procedure :: get_character_column_by_name
 
         procedure,public :: open => open_csv_file
 
@@ -1154,7 +1156,29 @@
         status_ok = .false.
     end if
 
-    end subroutine get_csv_string_column
+   end subroutine get_csv_string_column
+!*****************************************************************************************
+   
+!*****************************************************************************************
+!>
+!  Return a column from a CSV file as a `real(wp)` vector. Column is specified by name.
+
+    subroutine get_character_column_by_name(me,colname,r,status_ok)
+
+    implicit none
+
+    class(csv_file),intent(inout) :: me
+    character(len=*), intent(in) :: colname !! column name
+    character(len=*),dimension(:),allocatable,intent(out) :: r
+    logical,intent(out) :: status_ok
+    character(len=len(colname)),dimension(:),allocatable :: header
+    integer :: icol(1)
+    
+    call me%get_header(header,status_ok)
+    icol = findloc(header,colname)
+    call me%get_character_column(icol(1),r,status_ok)
+
+    end subroutine get_character_column_by_name
 !*****************************************************************************************
 
 !*****************************************************************************************
